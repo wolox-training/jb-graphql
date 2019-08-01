@@ -12,6 +12,17 @@ module.exports = gql`
     password: String!
     id: ID!
   }
+  type Album {
+    artist: Int!
+    name: String!
+    photos: [Photo]
+    id: ID!
+  }
+  type Photo {
+    name: String!
+    thumbnailUrl: String!
+    id: ID!
+  }
   type AccessToken {
     accessToken: String!
     refreshToken: String!
