@@ -5,10 +5,11 @@ const axios = require('axios'),
 
 exports.getAlbum = params =>
   axios
-    .get(`${base_uri}/albums?id=${params.id}`)
-    .then(response => response.data[0])
+    .get(`${base_uri}/albums/${params.id}`)
+    .then(response => response.data)
     .catch(error => {
       logger.error(error);
+      throw new Error('Cannot fetch album from external api');
     });
 
 exports.getAlbumPhotos = id =>
@@ -17,4 +18,5 @@ exports.getAlbumPhotos = id =>
     .then(response => response.data)
     .catch(err => {
       logger.error(err);
+      throw new Error('Cannot fetch photos from external api');
     });
