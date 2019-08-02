@@ -14,12 +14,13 @@ module.exports = gql`
   }
   type Album {
     artist: Int!
-    name: String!
+    title: String!
     photos: [Photo]
     id: ID!
   }
   type Photo {
-    name: String!
+    title: String!
+    url: String!
     thumbnailUrl: String!
     id: ID!
   }
