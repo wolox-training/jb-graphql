@@ -6,7 +6,6 @@ exports.dataAlbum = async (_, params) => {
   return {
     ...albums,
     artist: albums.userId,
-    name: albums.title,
-    photos: albumsPhotos.map(photo => ({ ...photo, name: photo.title }))
+    photos: albumsPhotos
   };
 };
