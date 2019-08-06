@@ -14,7 +14,7 @@ exports.getAlbum = async (_, params) => {
 };
 
 exports.getAlbums = async (_, params) => {
-  const tempAlbums = await allAlbums(params.offset, params.limit, params.orderBy);
+  const tempAlbums = await allAlbums(params.offset, params.limit, params.orderBy, params.filter);
   const promisesPhotos = tempAlbums.map(album => albumPhotos(album.id));
   const photosRensponse = await Promise.all(promisesPhotos);
   const albums = tempAlbums.map((album, index) => ({
