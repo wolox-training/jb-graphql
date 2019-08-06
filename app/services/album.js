@@ -3,16 +3,25 @@ const axios = require('axios'),
   base_uri = config.common.albumsApi.url,
   logger = require('../logger');
 
-exports.getAlbum = params =>
+exports.allAlbums = () =>
   axios
-    .get(`${base_uri}/albums/${params.id}`)
+    .get(`${base_uri}/albums`)
+    .then(response => response.data)
+    .catch(error => {
+      logger.error(error);
+      throw new Error('Cannot fetch albums from external api');
+    });
+
+exports.albumById = id =>
+  axios
+    .get(`${base_uri}/albums/${id}`)
     .then(response => response.data)
     .catch(error => {
       logger.error(error);
       throw new Error('Cannot fetch album from external api');
     });
 
-exports.getAlbumPhotos = id =>
+exports.photosPerAlbum = id =>
   axios
     .get(`${base_uri}/photos?albumId=${id}`)
     .then(response => response.data)
