@@ -1,14 +1,15 @@
 const axios = require('axios'),
   config = require('../../config'),
   base_uri = config.common.albumsApi.url,
-  logger = require('../logger');
+  logger = require('../logger'),
+  helpers = require('../helpers');
 
-exports.allAlbums = (offset, limit, orderedBy) =>
+exports.allAlbums = (offset = 0, limit = 10, sortKey = null, sortOrder = 'ASC') =>
   axios
     .get(`${base_uri}/albums`)
     .then(response => {
-      const pagination = response.data.slice(offset, offset + limit);
-      const albums = pagination.sort((album1, album2) => (album1[orderedBy] >= album2[orderedBy] ? 1 : -1));
+      const paginated = helpers.paginated(response.data, offset, limit);
+      const albums = sortKey ? helpers.order(paginated, sortKey, sortOrder) : paginated;
       return albums;
     })
     .catch(error => {
@@ -25,7 +26,7 @@ exports.albumById = id =>
       throw new Error('Cannot fetch album from external api');
     });
 
-exports.photosPerAlbum = id =>
+exports.photosByAlbumId = id =>
   axios
     .get(`${base_uri}/photos?albumId=${id}`)
     .then(response => response.data)

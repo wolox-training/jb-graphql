@@ -1,6 +1,4 @@
-const { allAlbums, albumById, photosPerAlbum } = require('../../services/album');
-
-const albumPhotos = id => photosPerAlbum(id);
+const { allAlbums, albumById, photosByAlbumId } = require('../../services/album');
 
 exports.getAlbum = async (_, params) => {
   const album = await albumById(params.id);
@@ -8,14 +6,15 @@ exports.getAlbum = async (_, params) => {
     ...album,
     artist: album.userId,
     name: album.title,
-    photos: await photosPerAlbum(params.id)
+    photos: await photosByAlbumId(params.id)
   };
   return data;
 };
 
 exports.getAlbums = async (_, params) => {
-  const tempAlbums = await allAlbums(params.offset, params.limit, params.orderBy);
-  const promisesPhotos = tempAlbums.map(album => albumPhotos(album.id));
+  const { offset, limit, sortKey, sortOrder } = params;
+  const tempAlbums = await allAlbums(offset, limit, sortKey, sortOrder);
+  const promisesPhotos = tempAlbums.map(album => photosByAlbumId(album.id));
   const photosRensponse = await Promise.all(promisesPhotos);
   const albums = tempAlbums.map((album, index) => ({
     ...album,
