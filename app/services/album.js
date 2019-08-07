@@ -8,10 +8,10 @@ exports.allAlbums = params =>
   axios
     .get(`${base_uri}/albums`)
     .then(response => {
-      const { sortKey, sortOrder = 'ASC', filter } = params;
+      const { sortKey, sortOrder, filter } = params;
       const dataAlbums = filter ? helpers.search(response.data, filter) : response.data;
-      const paginated = helpers.paginated(dataAlbums, params);
-      const albums = sortKey ? helpers.order(paginated, sortKey, sortOrder) : paginated;
+      const paginate = helpers.paginate(dataAlbums, params);
+      const albums = helpers.order(paginate, sortKey, sortOrder);
       return albums;
     })
     .catch(error => {
