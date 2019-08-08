@@ -1,13 +1,12 @@
-const { SORT_ORDER, ASC, DESC } = require('./constants');
-
 exports.paginate = (data, params) => {
   const { offset, limit } = params;
   return data.slice(offset, offset + limit);
 };
 
 exports.order = (data, sortKey, sortOrder) => {
-  const sorting = sortOrder === SORT_ORDER ? DESC : ASC;
-  return data.sort((album1, album2) => (album1[sortKey] >= album2[sortKey] ? 1 : sorting));
+  const ordering = { DESC: -1, ASC: 1 }[sortOrder] || 1;
+  const sorting = (x, y) => (x >= y ? 1 : -1) * ordering;
+  return data.sort((x, y) => sorting(x[sortKey], y[sortKey]));
 };
 
-exports.search = (data, search) => data.filter(album => album.title === search);
+exports.search = (data, filter, value) => data.filter(album => album[filter].toString() === value);
