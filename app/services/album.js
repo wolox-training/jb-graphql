@@ -2,11 +2,10 @@ const axios = require('axios'),
   config = require('../../config'),
   base_uri = config.common.albumsApi.url,
   logger = require('../logger'),
-  helpers = require('../helpers'),
-  { DEFAULT_SORTKEY } = require('../constants');
+  helpers = require('../helpers');
 
 exports.allAlbums = params => {
-  const { sortField = DEFAULT_SORTKEY, sortOrder } = params.order || {};
+  const { sortField, sortOrder } = params.order;
   const { fieldFilter, valueFilter } = params.filter || {};
   return axios
     .get(`${base_uri}/albums`)
