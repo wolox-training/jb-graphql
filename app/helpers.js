@@ -1,4 +1,10 @@
-const { MAP_ORDER } = require('./constants');
+const bcrypt = require('bcryptjs'),
+  salt_sync = require('../config').encryption,
+  { MAP_ORDER } = require('./constants');
+
+const salt = bcrypt.genSaltSync(parseInt(salt_sync));
+
+exports.encryptPassword = password => bcrypt.hashSync(password, salt);
 
 exports.paginate = (data, params) => {
   const { offset, limit } = params;
