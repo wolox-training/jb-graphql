@@ -1,20 +1,20 @@
 const { gql } = require('apollo-server'),
-  { getAlbum, getAlbumPhotos } = require('../../services/album');
+  { getAlbum, getAlbums } = require('./resolver'),
+  { DEFAULT_OFFSET, DEFAULT_LIMIT, DEFAULT_SORTKEY, DEFAULT_SORTORDER } = require('../../constants');
 
 module.exports = {
   queries: {
-    album: async (_, params) => {
-      const album = await getAlbum(params);
-      const albumPhotos = await getAlbumPhotos(params.id);
-      album.artist = album.userId;
-      delete album.userId;
-      album.photos = albumPhotos;
-      return album;
-    }
+    album: (_, params) => getAlbum(_, params),
+    albums: (_, params) => getAlbums(_, params)
   },
   schema: gql`
     extend type Query {
       album(id: ID): Album!
+      albums(offset: Int = ${DEFAULT_OFFSET}, 
+      limit: Int = ${DEFAULT_LIMIT}, 
+      order: SortingInput = { sortField: "${DEFAULT_SORTKEY}", sortOrder: "${DEFAULT_SORTORDER}" },
+      filter: FilterInput
+      ): [Album]!
     }
   `
 };

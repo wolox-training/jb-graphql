@@ -12,4 +12,12 @@ module.exports = gql`
     username: String!
     password: String!
   }
+  input SortingInput {
+    sortField: String!
+    sortOrder: String!
+  }
+  input FilterInput {
+    fieldFilter: String!
+    valueFilter: String!
+  }
 `;
