@@ -1,4 +1,5 @@
 const { user: User } = require('../../models'),
+  errors = require('../../errors'),
   logger = require('../../logger'),
   helpers = require('../../helpers');
 
@@ -10,6 +11,8 @@ exports.createUser = async user => {
     return storeUser;
   } catch (error) {
     logger.error(error);
-    return error;
+    throw error.name === 'SequelizeUniqueConstraintError'
+      ? errors.emailExistError('The email has already been taken.')
+      : errors.defaultError();
   }
 };
