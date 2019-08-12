@@ -6,7 +6,7 @@ module.exports = gql`
     lastName: String!
     username: String!
     email: String! @constraint(format: "email", minLength: 12, pattern: ".*@wolox.(ar|co|cl|com.ar)$")
-    password: String! @constraint(minLength: 8)
+    password: String! @constraint(pattern: "^[a-zA-Z0-9_]*$", minLength: 8)
   }
   input LoginInput {
     username: String!

@@ -5,7 +5,8 @@ const { user: User } = require('../../models'),
 
 exports.createUser = async user => {
   try {
-    user.password = helpers.encryptPassword(user.password);
+    const hash = await helpers.encryptPassword(user.password);
+    user.password = hash;
     const storeUser = await User.create(user);
     logger.info(`The user ${user.firstName} ${user.lastName} was successfully created`);
     return storeUser;
