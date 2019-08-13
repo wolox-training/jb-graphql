@@ -19,3 +19,9 @@ exports.order = (data, sortKey, sortOrder) => {
 };
 
 exports.search = (data, filter, value) => data.filter(album => album[filter].toString() === value);
+
+exports.changeUserIdByArtist = album => {
+  album.artist = album.userId;
+  delete album.userId;
+  return album;
+};

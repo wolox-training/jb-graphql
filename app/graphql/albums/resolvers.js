@@ -1,28 +1,19 @@
-const { allAlbums, albumById, photosByAlbumId } = require('../../services/album');
+const { allAlbums, albumById, photosByAlbumId } = require('../../services/album'),
+  { changeUserIdByArtist } = require('../../helpers');
 
 exports.getAlbum = async (_, params) => {
   const album = await albumById(params.id);
-  const data = {
-    ...album,
-    artist: album.userId,
-    name: album.title
-  };
-  return data;
+  return changeUserIdByArtist(album);
 };
 
 exports.getAlbums = async (_, params) => {
   const tempAlbums = await allAlbums(params);
-  const albums = tempAlbums.map(album => ({
-    ...album,
-    artist: album.userId
-  }));
-  return albums;
+  return tempAlbums.map(album => changeUserIdByArtist(album));
 };
 
-exports.getPhotos = async root => {
+exports.getPhotos = root => {
   const { id } = root;
-  const photos = await photosByAlbumId(id);
-  return photos;
+  return photosByAlbumId(id);
 };
 
 exports.typeResolvers = {
