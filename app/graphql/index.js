@@ -21,6 +21,9 @@ module.exports = makeExecutableSchema({
     },
     Subscription: {
       ...users.subscriptions
+    },
+    Album: {
+      ...albums.typeResolvers
     }
   },
   schemaDirectives: {

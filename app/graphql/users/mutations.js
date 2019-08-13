@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server'),
   { userLoggedIn } = require('../events'),
-  { createUser } = require('../users/resolver');
+  { createUser } = require('../users/resolvers');
 
 module.exports = {
   mutations: {
