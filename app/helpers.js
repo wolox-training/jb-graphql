@@ -2,10 +2,20 @@ const bcrypt = require('bcryptjs'),
   salt_sync = require('../config').encryption,
   { MAP_ORDER } = require('./constants');
 
-exports.encryptPassword = async password => {
-  const salt = await bcrypt.genSalt(salt_sync);
-  return bcrypt.hash(password, salt);
-};
+exports.encryptPassword = password =>
+  new Promise((resolve, reject) =>
+    bcrypt.genSalt(salt_sync, (error, salt) => {
+      if (!error) {
+        return bcrypt.hash(password, salt, (err, hash) => {
+          if (!err) {
+            resolve(hash);
+          }
+          reject(err);
+        });
+      }
+      return reject(error);
+    })
+  );
 
 exports.paginate = (data, params) => {
   const { offset, limit } = params;
