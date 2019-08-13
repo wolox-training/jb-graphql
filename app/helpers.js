@@ -1,4 +1,11 @@
-const { MAP_ORDER } = require('./constants');
+const bcrypt = require('bcryptjs'),
+  salt_sync = require('../config').encryption,
+  { MAP_ORDER } = require('./constants');
+
+exports.encryptPassword = async password => {
+  const salt = await bcrypt.genSalt(salt_sync);
+  return bcrypt.hash(password, salt);
+};
 
 exports.paginate = (data, params) => {
   const { offset, limit } = params;
@@ -12,3 +19,9 @@ exports.order = (data, sortKey, sortOrder) => {
 };
 
 exports.search = (data, filter, value) => data.filter(album => album[filter].toString() === value);
+
+exports.changeUserIdByArtist = album => {
+  album.artist = album.userId;
+  delete album.userId;
+  return album;
+};

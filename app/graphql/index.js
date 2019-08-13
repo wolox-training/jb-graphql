@@ -1,4 +1,5 @@
 const { makeExecutableSchema } = require('graphql-tools'),
+  ConstraintDirective = require('graphql-constraint-directive'),
   types = require('./types'),
   inputs = require('./inputs'),
   users = require('./users'),
@@ -20,6 +21,12 @@ module.exports = makeExecutableSchema({
     },
     Subscription: {
       ...users.subscriptions
+    },
+    Album: {
+      ...albums.typeResolvers
     }
+  },
+  schemaDirectives: {
+    constraint: ConstraintDirective
   }
 });

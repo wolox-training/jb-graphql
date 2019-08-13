@@ -48,6 +48,9 @@ const config = {
     },
     albumsApi: {
       url: process.env.PLACEHOLDER_URL
+    },
+    encryption: {
+      salt_sync: process.env.BCRYPT_SALT
     }
   }
 };

@@ -1,5 +1,5 @@
 const { gql } = require('apollo-server'),
-  { getAlbum, getAlbums } = require('./resolver'),
+  { getAlbum, getAlbums } = require('./resolvers'),
   { DEFAULT_OFFSET, DEFAULT_LIMIT, DEFAULT_SORTKEY, DEFAULT_SORTORDER } = require('../../constants');
 
 module.exports = {
