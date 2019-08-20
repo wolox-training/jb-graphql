@@ -29,15 +29,10 @@ exports.getPhotos = (albumId, responsePhotos = photosFactory.allPhotos) => {
     .reply(200, responsePhotos);
 };
 
-exports.getPhotosFiveTimes = () => {
-  exports.getPhotos(1);
-  exports.getPhotos(2);
-  exports.getPhotos(3);
-  exports.getPhotos(4);
-  exports.getPhotos(5);
+exports.getPhotosFourTimes = albumsIds => {
+  albumsIds.map(albumId => exports.getPhotos(albumId));
 };
 
-exports.getPhotosTwoTimes = () => {
-  exports.getPhotos(2);
-  exports.getPhotos(3);
+exports.getPhotosTwoTimes = albumsIds => {
+  albumsIds.map(albumId => exports.getPhotos(albumId));
 };
