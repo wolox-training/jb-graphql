@@ -17,7 +17,8 @@ module.exports = makeExecutableSchema({
       ...albums.queries
     },
     Mutation: {
-      ...users.mutations
+      ...users.mutations,
+      ...albums.mutations
     },
     Subscription: {
       ...users.subscriptions

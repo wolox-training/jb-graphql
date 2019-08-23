@@ -43,4 +43,16 @@ const getAlbums = params => {
 `;
 };
 
-module.exports = { getAlbum, getAlbums };
+const buyAlbum = albumId => ({
+  mutation: gql`
+    mutation buyAlbum($albumId: ID!) {
+      buyAlbum(albumId: $albumId) {
+        id
+        title
+      }
+    }
+  `,
+  variables: { albumId }
+});
+
+module.exports = { getAlbum, getAlbums, buyAlbum };

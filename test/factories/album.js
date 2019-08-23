@@ -4,6 +4,12 @@ exports.oneAlbum = {
   userId: 1
 };
 
+exports.buyAlbum = {
+  id: 3,
+  title: 'omnis laborum odio',
+  userId: 1
+};
+
 exports.allAlbums = [
   {
     userId: 1,
