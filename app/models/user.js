@@ -1,3 +1,6 @@
+const logger = require('../logger');
+const errors = require('../errors');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'user',
@@ -29,15 +32,35 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  User.createModel = user => User.create(user);
+  User.createModel = user =>
+    User.create(user).catch(err => {
+      logger.error(err);
+      throw errors.databaseError(err);
+    });
 
-  User.getOne = user => User.findOne({ where: user });
+  User.getOne = user =>
+    User.findOne({ where: user }).catch(err => {
+      logger.error(err);
+      throw errors.databaseError(err);
+    });
 
-  User.getAll = () => User.findAll();
+  User.getAll = () =>
+    User.findAll().catch(err => {
+      logger.error(err);
+      throw errors.databaseError(err);
+    });
 
-  User.getByUsername = username => User.getOne({ username });
+  User.getByUsername = username =>
+    User.getOne({ username }).catch(err => {
+      logger.error(err);
+      throw errors.databaseError(err);
+    });
 
-  User.prototype.updateModel = props => this.update(props);
+  User.prototype.updateModel = props =>
+    this.update(props).catch(err => {
+      logger.error(err);
+      throw errors.databaseError(err);
+    });
 
   return User;
 };
