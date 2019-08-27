@@ -9,13 +9,15 @@ exports.checkLogin = credentials => {
   return User.getByUsername(username)
     .then(user => {
       if (!user) {
+        logger.error(`The username provided is incorrect for the user ${username}`);
         throw errors.signInError('The username provided is incorrect');
       }
 
       if (!checkPassword(password, user.password)) {
+        logger.error(`The password provided is incorrect for the user ${username}`);
         throw errors.signInError('The password provided is incorrect');
       }
-
+      logger.error(`user ${username} authenticated correctly`);
       return generateToken(user);
     })
     .catch(error => {

@@ -19,6 +19,6 @@ exports.createUser = async user => {
 };
 
 exports.signIn = async user => {
-  const token = await checkLogin(user);
-  return { accessToken: token };
+  const accessToken = await checkLogin(user);
+  return { accessToken };
 };
