@@ -1,11 +1,11 @@
 const { user: User } = require('../../models'),
   errors = require('../../errors'),
   logger = require('../../logger'),
-  helpers = require('../../helpers');
+  { addFullName, encryptPassword } = require('../../helpers');
 
 exports.createUser = async user => {
   try {
-    const hashedPassword = await helpers.encryptPassword(user.password);
+    const hashedPassword = await encryptPassword(user.password);
     const storedUser = await User.create({ ...user, password: hashedPassword });
     logger.info(`The user ${user.firstName} ${user.lastName} was successfully created`);
     return storedUser;
@@ -16,3 +16,7 @@ exports.createUser = async user => {
       : errors.defaultError();
   }
 };
+
+exports.getUser = user => User.getOne(user).then(addFullName);
+
+exports.getUsers = () => User.getAll().then(users => users.map(addFullName));

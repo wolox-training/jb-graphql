@@ -37,3 +37,5 @@ exports.changeUserIdByArtist = album => {
   delete album.userId;
   return album;
 };
+
+exports.addFullName = user => ({ ...user.dataValues, name: `${user.firstName} ${user.lastName}` });
