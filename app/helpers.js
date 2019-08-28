@@ -46,3 +46,5 @@ exports.showError = err => {
     statusCode: err.extensions.code
   };
 };
+
+exports.addFullName = user => ({ ...user.dataValues, name: `${user.firstName} ${user.lastName}` });
