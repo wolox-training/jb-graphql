@@ -17,7 +17,7 @@ migrationsManager
     }); */
     new ApolloServer({
       schema,
-      formatError: err => helpers.showError(err)
+      formatError: helpers.showError
     })
       .listen(port)
       .then(({ url, subscriptionsUrl }) => {
