@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs'),
   salt_sync = require('../config').encryption,
-  { MAP_ORDER } = require('./constants');
+  { MAP_ORDER } = require('./constants'),
+  errors = require('./errors');
 
 exports.encryptPassword = password =>
   new Promise((resolve, reject) =>
@@ -36,4 +37,10 @@ exports.changeUserIdByArtist = album => {
   album.artist = album.userId;
   delete album.userId;
   return album;
+};
+
+exports.checkAuthenticated = user => {
+  if (!user) {
+    throw errors.unauthorizedError('unauthorized token');
+  }
 };
