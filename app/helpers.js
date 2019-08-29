@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs'),
   salt_sync = require('../config').encryption,
-  { MAP_ORDER } = require('./constants');
+  { MAP_ORDER } = require('./constants'),
+  logger = require('../app/logger');
 
 exports.encryptPassword = password =>
   new Promise((resolve, reject) =>
@@ -37,3 +38,13 @@ exports.changeUserIdByArtist = album => {
   delete album.userId;
   return album;
 };
+
+exports.showError = err => {
+  logger.error(err.message);
+  return {
+    message: err.message,
+    statusCode: err.extensions.code
+  };
+};
+
+exports.addFullName = user => ({ ...user.dataValues, name: `${user.firstName} ${user.lastName}` });

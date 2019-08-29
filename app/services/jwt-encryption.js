@@ -4,9 +4,8 @@ const jwt = require('jwt-simple'),
 
 exports.generateToken = user => {
   const tokenPayload = {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email
+    id: user.id,
+    username: user.username
   };
   return jwt.encode(tokenPayload, secret_key);
 };
