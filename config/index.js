@@ -49,6 +49,9 @@ const config = {
     albumsApi: {
       url: process.env.PLACEHOLDER_URL
     },
+    jwt: {
+      secret_key: process.env.SECRET_KEY
+    },
     encryption: {
       salt_sync: process.env.BCRYPT_SALT
     }

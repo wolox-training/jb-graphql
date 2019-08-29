@@ -1,6 +1,7 @@
 const { user: User } = require('../../models'),
   errors = require('../../errors'),
   logger = require('../../logger'),
+  { checkLogin } = require('../../services/user'),
   { addFullName, encryptPassword } = require('../../helpers');
 
 exports.createUser = async user => {
@@ -17,6 +18,10 @@ exports.createUser = async user => {
   }
 };
 
+exports.signIn = async user => {
+  const accessToken = await checkLogin(user);
+  return { accessToken };
+};
 exports.getUser = user => User.getOne(user).then(addFullName);
 
 exports.getUsers = () => User.getAll().then(users => users.map(addFullName));
