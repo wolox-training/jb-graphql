@@ -26,7 +26,7 @@ describe('users', () => {
         mutate(login({ username: user.username, password: 'ubuntu2018' })).then(res => {
           const data = res.data.login;
           expect(data).toHaveProperty('accessToken');
-          expect(jwt.decode(data.accessToken, secret_key).email).toStrictEqual(user.email);
+          expect(jwt.decode(data.accessToken, secret_key).username).toStrictEqual(user.username);
         })
       );
     });

@@ -1,4 +1,5 @@
 const { makeExecutableSchema } = require('graphql-tools'),
+  { applyMiddleware } = require('graphql-middleware'),
   ConstraintDirective = require('graphql-constraint-directive'),
   types = require('./types'),
   inputs = require('./inputs'),
@@ -8,7 +9,7 @@ const { makeExecutableSchema } = require('graphql-tools'),
 
 const typeDefs = [types, inputs, ...users.schemas, ...healthCheck.schemas, ...albums.schemas];
 
-module.exports = makeExecutableSchema({
+const schema = makeExecutableSchema({
   typeDefs,
   resolvers: {
     Query: {
@@ -17,7 +18,8 @@ module.exports = makeExecutableSchema({
       ...albums.queries
     },
     Mutation: {
-      ...users.mutations
+      ...users.mutations,
+      ...albums.mutations
     },
     Subscription: {
       ...users.subscriptions
@@ -30,3 +32,13 @@ module.exports = makeExecutableSchema({
     constraint: ConstraintDirective
   }
 });
+
+const middlewares = {
+  Mutation: {
+    ...albums.middleware.mutations
+  }
+};
+
+const schemaWithMiddleware = applyMiddleware(schema, middlewares);
+
+module.exports = schemaWithMiddleware;

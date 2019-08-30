@@ -1,8 +1,12 @@
 const { queries, schema: queriesSchema } = require('./queries'),
-  { typeResolvers } = require('./resolvers');
+  { mutations, schema: mutationSchema } = require('./mutations'),
+  { typeResolvers } = require('./resolvers'),
+  middleware = require('./middleware');
 
 module.exports = {
   queries,
+  mutations,
+  middleware,
   typeResolvers,
-  schemas: [queriesSchema]
+  schemas: [queriesSchema, mutationSchema]
 };

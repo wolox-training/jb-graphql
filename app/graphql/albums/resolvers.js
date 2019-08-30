@@ -1,4 +1,5 @@
 const { allAlbums, albumById, photosByAlbumId } = require('../../services/album'),
+  { createPurchase } = require('../../services/purchase'),
   { changeUserIdByArtist } = require('../../helpers');
 
 exports.getAlbum = async (_, params) => {
@@ -9,6 +10,13 @@ exports.getAlbum = async (_, params) => {
 exports.getAlbums = async (_, params) => {
   const tempAlbums = await allAlbums(params);
   return tempAlbums.map(album => changeUserIdByArtist(album));
+};
+
+exports.buyAlbum = async (_, params, context) => {
+  const { user } = context;
+  const album = await albumById(params.albumId);
+  await createPurchase({ albumId: album.id, userId: user.id });
+  return album;
 };
 
 exports.getPhotos = root => {
